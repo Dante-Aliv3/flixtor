@@ -37,9 +37,15 @@ if ENABLE_HOOK:
 	ghp.getCommitMsg(DEBUG)
 
 	if ghp.isMerge():
-		subprocess.call(['.gitHooks/merge.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+		try:
+			subprocess.call(['.gitHooks/merge.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+		except:
+			subprocess.call(['python3.exe', '.gitHooks/merge.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
 	elif ghp.isCommit():
-		subprocess.call(['.gitHooks/commit.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+		try:
+			subprocess.call(['.gitHooks/commit.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+		except:
+			subprocess.call(['python3.exe', '.gitHooks/commit.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
 	else:
 		print("NOT MERGE OR COMMIT")
 else:
