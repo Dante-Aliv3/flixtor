@@ -3,7 +3,7 @@
 ### Download Necessary Software
 > See list of required software in Notes
 
-### set Windoes Enviroment Var;  GITLAB_AUTH_TOKEN = {YOUR TOKEN}
+### set Windows Enviroment Var;  GITLAB_AUTH_TOKEN = {YOUR TOKEN}
 
 ### Clone Project Repo in GitKraken
 
