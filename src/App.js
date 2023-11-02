@@ -5,7 +5,7 @@ import {  useEffect } from "react";
 import './App.css';
 import '../src/css/global.css';
 import $ from 'jquery';
-import { Button } from 'semantic-ui-react'
+//import { Button } from 'semantic-ui-react'
 
 const defaultState = {
   defaultmessage: 'The toggle animation is currently:',
@@ -122,9 +122,9 @@ function ToggleButton({runOnClick}) {
   //console.log({buttonState});
 
   return (
-      <Button toggle active={buttonState.active} onClick={handleClick}>
+      <div toggle active={buttonState.active} onClick={handleClick}>
         Toggle Animation
-      </Button>
+      </div>
   )
 }
 export default App;
