@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Author: 	Ash Searle
+# Date:		02Feb22
+# Reason:	1.	prevent devs from merging test/pre into master
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+# libraries needed for script
+import sys, os
+import re
+
+# list of branches that cant be merged into master
+FORBIDDEN_BRANCHES = ["test", "preview", "LIVE"]
+
+# you merged wrong, abort
+def abort_Merge():
+	os.system("git reset --merge")
+	sys.exit(1)
+	print("merge aborted")
+
+def printDebug():
+	print("print arguments:")
+	count = 0
+	for x in sys.argv:
+		tempCount = str(count)
+		print("\t" + tempCount + ".) " + x)
+		count = count + 1
+
+# prevent merging FORBIDDEN_BRANCHES into master or branch
+def branchClearedForMerge():
+	rtn = True
+	
+	#determine last commit message
+	with open(".git/COMMIT_EDITMSG", 'r') as file1:
+ 		COMMIT_MSG_FILE = file1.read().split('/')[-1].strip()
+
+	#see if someone merged one of FORBIDDEN_BRANCHES into WF branch
+	for badBranch in FORBIDDEN_BRANCHES:
+		if ("'"+badBranch+"' into" in COMMIT_MSG_FILE):
+			rtn = False
+
+	print("branchClearedForMerge: " + str(rtn))
+	print("\nit seems like you merged pre/test into your WF branch instead of the other way around. Talk to Ash or Connie to fix it")
+	return rtn
+
+# if merge, run merge functions
+if (not branchClearedForMerge()):
+	print("ABORTING MERGE")	
+	abort_Merge() #if trying to force push fix on WF branch, comment this out

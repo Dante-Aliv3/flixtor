@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Author:       Ash Searle
+# Date:         06Jun23
+# Reason:       1.      to append merge conflicting files to commit messages after merge conflict
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+##################
+# libraries needed for script
+##################
+import gitHooksPackage as ghp
+
+############
+# Arguments
+############
+COMMIT_MSG_PATH = ghp.COMMIT_MSG_PATH
+
+############
+# Variables
+############
+DEBUG = 1
+ENABLE_HOOK = 0
+
+############
+# Functions
+############
+
+#######
+# MAIN
+#######
+
+if ENABLE_HOOK:
+	tempFileContents = ghp.getTempFileContents(DEBUG)
+	if tempFileContents:
+		ghp.appendCommitMsg(tempFileContents, DEBUG)
+		ghp.replaceCommitMsgHashtags(DEBUG)
+else:
+	print("commit-msg: hook disabled")

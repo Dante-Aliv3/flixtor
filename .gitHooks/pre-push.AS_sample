@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# PROTECTED_BRANCH='AS_deleteMe'
+
+# CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# PUSH_COMMAND=$(ps -ocommand= -p $PPID)
+# echo -e "push command: \"$PUSH_COMMAND\"" 
+
+# IS_DESTRUCTIVE='\-\-force|\-\-delete|\-f'
+
+# WILL_DELETE_PROTECTED_BRANCH=" :$PROTECTED_BRANCH"
+
+# if [[ $PUSH_COMMAND =~ $IS_DESTRUCTIVE ]] && ( [ $CURRENT_BRANCH = $PROTECTED_BRANCH ] || [[ $PUSH_COMMAND =~ $PROTECTED_BRANCH ]] ) ||
+#    [[ $PUSH_COMMAND =~ $WILL_DELETE_PROTECTED_BRANCH ]]; then
+#   echo -e "\n[PRE-PUSH HOOK ERROR] Do not force-push or delete the \"$PROTECTED_BRANCH\" branch!\n"
+  # you can skip this check with --no-verify
+#   exit 1
+# fi
+
+# exit 0

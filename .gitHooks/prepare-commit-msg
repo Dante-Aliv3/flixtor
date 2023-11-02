@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Author: 	Ash Searle
+# Date:		09Jun23
+# Reason:	1.	determine git action and call file
+# 				 2.	replace hashtags in commit msg
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+##############################
+# libraries needed for script
+##############################
+import gitHooksPackage as ghp
+import subprocess
+
+############
+# Arguments
+############
+COMMIT_MSG_PATH = ghp.COMMIT_MSG_PATH
+ACTION = ghp.ACTION
+
+############
+# Variables
+############
+DEBUG = 1
+ENABLE_HOOK = 1
+
+############
+# Main
+############
+
+if ENABLE_HOOK:
+	ghp.printArguments("prepare-commit-msg")
+	ghp.isMerge(DEBUG)
+	ghp.isCommit(DEBUG)
+	ghp.isMergeConflict(DEBUG)
+	ghp.getCommitMsg(DEBUG)
+
+	if ghp.isMerge():
+		subprocess.call(['.gitHooks/merge.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+	elif ghp.isCommit():
+		subprocess.call(['.gitHooks/commit.py', COMMIT_MSG_PATH, ACTION, ghp.getCommitMsg()])
+	else:
+		print("NOT MERGE OR COMMIT")
+else:
+	print("prepare-commit-msg: hook disabled")

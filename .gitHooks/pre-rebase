@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "[PRE-REBASE ERROR] rebasing is not allowed. If needed, contact Ash Searle" 
+
+exit 1
