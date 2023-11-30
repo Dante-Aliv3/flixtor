@@ -1,17 +1,22 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # dependencies
 .idea
-
-# dependencies
 /node_modules
 /.pnp
 .pnp.js
 
+# Ignore environment variables and secrets
+.env
+
 # testing
 /coverage
 
-# production
+# production & build folder
+/dist
 /build
+
+# Ignore logs
+*.log
 
 # misc
 .DS_Store
