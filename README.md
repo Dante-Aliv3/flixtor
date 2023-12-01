@@ -1,4 +1,4 @@
-# titan
+# flixtor.id
 
 ### Download Necessary Software
 > See list of required software in Notes
