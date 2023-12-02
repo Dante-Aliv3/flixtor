@@ -56,8 +56,6 @@ export default function MovieDetailsPage(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => { }, [movieDetails]);
-
     return (
         <>
             {/*<section>

@@ -1,7 +1,8 @@
 import { Link, Route, Routes, Outlet } from "react-router-dom";
-import React from "react";
+import React, { useContext } from 'react';
 import { LayoutRoutes } from "../routes";
 import NotFound from "../pages/NotFound";
+import { SessionContext } from "../context/session";
 
 // export {default as NowPlayingPage} from "./NowPlayingPage/base";
 
@@ -10,6 +11,8 @@ import NotFound from "../pages/NotFound";
 //     SideBar
 // }
 export function MainLayout({ children }) {
+  const {sessionData, setSessionData} = useContext(SessionContext);
+
   return (
     <>
       <header className="main-header">
@@ -33,6 +36,9 @@ export function MainLayout({ children }) {
           </nav>
         </div>
       </header>
+
+      {'darkmode active: ' +  JSON.stringify(sessionData.darkmode)}
+      {console.log(sessionData)}
 
       {/*<Outlet />*/}
       {children}

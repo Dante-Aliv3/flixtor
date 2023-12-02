@@ -5,8 +5,9 @@ export default function NotFound() {
 
   useEffect(() => {
     setTimeout(() => {
+    //  Redirect user back to home
       navigate("/");
-    }, 1500);
+    }, 2500);
   }, []);
 
   return (

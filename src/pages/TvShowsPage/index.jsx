@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { SessionContext } from "../../context/session";
 
 export default function TvShowsContainer(props) {
   const [global, setGlobal] = useState({
@@ -18,6 +19,7 @@ export default function TvShowsContainer(props) {
   });
 
   const [tvShows, settvShows] = useState({});
+  const {sessionData, setSessionData} = useContext(SessionContext);
 
   const fetchAPIData = async (endpoint) => {
     const API_KEY = global.api.apiKey;
@@ -45,6 +47,7 @@ export default function TvShowsContainer(props) {
     };
     init();
 
+    setSessionData({...sessionData, darkmode: false});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,9 +61,7 @@ export default function TvShowsContainer(props) {
 
   return (
     <>
-      {/*<section>
-                <h1>Amazing scientists 8 - {global.currentPage}</h1>
-            </section>*/}
+
 
       {/* Popular TV Shows  */}
       <section className="container">
