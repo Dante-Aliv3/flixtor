@@ -1,7 +1,7 @@
 import { Link, Route, Routes, Outlet } from "react-router-dom";
-import React, { useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { LayoutRoutes } from "../routes";
-import NotFound from "../pages/NotFound";
+import { Switch } from '@headlessui/react';
 import { SessionContext } from "../context/session";
 
 // export {default as NowPlayingPage} from "./NowPlayingPage/base";
@@ -12,14 +12,38 @@ import { SessionContext } from "../context/session";
 // }
 export function MainLayout({ children }) {
   const {sessionData, setSessionData} = useContext(SessionContext);
+    function toggleDarkMode () {
+        setSessionData((prevState) => {
+            return { ...prevState, darkmode: !prevState.darkmode};
+        });
+    }
+
+    useEffect(() => {
+        sessionStorage.setItem( 'darkmode', sessionData.darkmode );
+        // sessionStorage.removeItem("darkmode");
+    }, [sessionData]);
 
   return (
     <>
-      <header className="main-header">
+      <header className="main-header"  style={!sessionData.darkmode ? {background: '#134e4a'} : null}>
         <div className="container">
           <div className="logo">
             <Link to="/">FLIXTOR.ID</Link>
           </div>
+            <Switch
+                checked={sessionData.darkmode}
+                onChange={toggleDarkMode}
+                className={`${
+                    sessionData.darkmode ? 'bg-teal-900' : 'bg-teal-700'
+                } relative inline-flex h-6 w-11 items-center rounded-full`}
+            >
+                <span className="sr-only">Use setting</span>
+                <span
+                    className={`${
+                        sessionData.darkmode ? 'translate-x-6' : 'translate-x-1'
+                    } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                />
+            </Switch>
           <nav>
             <ul>
               <li>
@@ -37,14 +61,11 @@ export function MainLayout({ children }) {
         </div>
       </header>
 
-      {'darkmode active: ' +  JSON.stringify(sessionData.darkmode)}
-      {console.log(sessionData)}
-
       {/*<Outlet />*/}
       {children}
 
       {/* Footer */}
-      <footer className="main-footer">
+      <footer className="main-footer"  style={!sessionData.darkmode ? {background: '#134e4a'} : null}>
         <div className="container">
           <div className="logo">
             <span>FLIXTOR.ID</span>

@@ -1,29 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {useEffect, useState, useContext, Fragment} from "react";
 import { Link } from "react-router-dom";
 import { SessionContext } from "../../context/session";
 
 export default function TvShowsContainer(props) {
-  const [global, setGlobal] = useState({
-    currentPage: window.location.pathname,
-    search: {
-      term: "",
-      type: "",
-      page: 1,
-      totalPages: 1,
-      totalResults: 0,
-    },
-    api: {
-      apiKey: "db1a3d4fc9949395b6300a619305310d",
-      apiUrl: "https://api.themoviedb.org/3/",
-    },
-  });
-
-  const [tvShows, settvShows] = useState({});
   const {sessionData, setSessionData} = useContext(SessionContext);
 
+  const [tvShows, settvShows] = useState({});
+
   const fetchAPIData = async (endpoint) => {
-    const API_KEY = global.api.apiKey;
-    const API_URL = global.api.apiUrl;
+    const API_KEY = sessionData.api.apiKey;
+    const API_URL = sessionData.api.apiUrl;
 
     window.showSpinner();
 
@@ -39,7 +25,7 @@ export default function TvShowsContainer(props) {
   };
 
   useEffect(() => {
-    //console.log(global.api.apiKey);
+    //console.log(sessionData.api.apiKey);
     const init = async () => {
       const { results: newtvShows } = await fetchAPIData("tv/popular");
       //console.log(newtvShows);
@@ -47,7 +33,7 @@ export default function TvShowsContainer(props) {
     };
     init();
 
-    setSessionData({...sessionData, darkmode: false});
+    //setSessionData({...sessionData, darkmode: false});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -60,11 +46,9 @@ export default function TvShowsContainer(props) {
   }, [tvShows]);
 
   return (
-    <>
-
-
+    <Fragment >
       {/* Popular TV Shows  */}
-      <section className="container">
+      <section className="container"  style={!sessionData.darkmode ? {background: 'white', color: 'black', maxWidth: 'none', padding: '0px', margin: '0px'} : null}>
         <h2>Popular TV Shows</h2>
         <div id="popular-shows" className="grid">
           {Object.keys(tvShows).length &&
@@ -90,6 +74,6 @@ export default function TvShowsContainer(props) {
             })}
         </div>
       </section>
-    </>
+    </Fragment >
   );
 }

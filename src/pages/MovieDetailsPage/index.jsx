@@ -1,32 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, useParams} from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar} from "@fortawesome/free-solid-svg-icons";
+import {SessionContext} from "../../context/session";
 
 export default function MovieDetailsPage(props) {
-
-    const [global, setGlobal] = useState({
-        currentPage: window.location.pathname,
-        search: {
-            term: '',
-            type: '',
-            page: 1,
-            totalPages: 1,
-            totalResults: 0,
-        },
-        api: {
-            apiKey: 'db1a3d4fc9949395b6300a619305310d',
-            apiUrl: 'https://api.themoviedb.org/3/',
-        },
-    });
-
+    const {sessionData} = useContext(SessionContext);
     const [movieDetails, setMovieDetails] = useState({});
     const {movieId} = useParams();
     //console.log(`${movieId}`);
 
     const fetchAPIData = async (endpoint) => {
-        const API_KEY = global.api.apiKey;
-        const API_URL = global.api.apiUrl;
+        const API_KEY = sessionData.api.apiKey;
+        const API_URL = sessionData.api.apiUrl;
 
         window.showSpinner();
 
@@ -42,7 +28,7 @@ export default function MovieDetailsPage(props) {
     }
 
     useEffect(() => {
-        //console.log(global.api.apiKey);
+        //console.log(sessionData.api.apiKey);
         const init = async () => {
             const newMovieDetails = await fetchAPIData(`movie/${movieId}`);
             console.log(movieDetails);
@@ -59,7 +45,7 @@ export default function MovieDetailsPage(props) {
     return (
         <>
             {/*<section>
-                <h1>Amazing scientists 8 - {global.currentPage}</h1>
+                <h1>Amazing scientists 8 - {sessionData.currentPage}</h1>
             </section>*/}
 
             {/* Movie Details */}
