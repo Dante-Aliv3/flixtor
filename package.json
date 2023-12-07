@@ -31,7 +31,7 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "concurrently 'npm:start' 'npm:dev-watch:sass'",
-    "dev-watch:sass": "sass --watch src/assets/css/scss:src/assets/css",
+    "dev-watch:sass": "sass --watch src/.:src/.",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
