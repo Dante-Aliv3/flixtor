@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 
 function getInitialState () {
     let selectedOption = sessionStorage.getItem( 'darkmode' ) ||  true;
