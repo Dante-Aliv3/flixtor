@@ -54,6 +54,7 @@ export function MainLayout({ children }) {
                                  className="cursor-pointer px-5 py-2 text-sm border text-white hover:text-black  hover:bg-gray-100 rounded border-gray-300">Toggle
                                 Slide-over
                             </div>
+
                             <nav>
                                 <ul>
                                     <li>

@@ -2,25 +2,69 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
-    output: {
-        filename: 'bundle.js',
+    entry: {
+        bundle: path.resolve(__dirname, 'src/index.js'),
     },
+    output: {
+        filename: '[name].[contenthash].js',
+        path: path.resolve(__dirname, 'dist'),
+        assetModuleFilename: '[name][ext]',
+    },
+    devtool: 'source-map',
     module: {
         rules: [
+            {
+                test: /\.tsx?$/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                    },
+                    {
+                        loader: 'babel-loader',
+                        options: { presets: ['@babel/preset-typescript'] },
+                    }
+                ],
+                exclude: /node_modules/,
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
+                    options: { presets: ['@babel/preset-env','@babel/preset-react'] },
                 },
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            },{
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                ],
+            },
+            {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: [
+                    {
+                        loader: 'style-loader', // creates style nodes from JS strings
+                    },
+                    {
+                        loader: 'css-loader', // translates CSS into CommonJS
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource'
             }
         ],
     },
@@ -29,7 +73,7 @@ module.exports = {
     },
     devServer: {
         static: {
-            directory: path.join(__dirname, 'dist'),
+            directory: path.join(__dirname, '/public'),
         },
         hot: true,
         open: true,
