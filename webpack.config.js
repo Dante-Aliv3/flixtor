@@ -43,6 +43,9 @@ module.exports = {
                     {
                         loader: 'css-loader',
                     },
+                    {
+                        loader: 'postcss-loader',
+                    },
                 ],
             },
             {
@@ -56,6 +59,9 @@ module.exports = {
                         options: {
                             importLoaders: 1
                         }
+                    },
+                    {
+                        loader: 'postcss-loader',
                     },
                     {
                         loader: 'sass-loader',
