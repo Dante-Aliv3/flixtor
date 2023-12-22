@@ -12,9 +12,9 @@ import { SessionContext } from "../context/session";
 //     SideBar
 // }
 export function MainLayout({ children }) {
-    const {sessionData, setSessionData} = useContext(SessionContext);
-    const [showSlideOver, setshowSlideOver] = useState(false);
-    const slideOverId = useId();
+    const {sessionData, setSessionData}: any = useContext(SessionContext);
+    const [showSlideOver, setshowSlideOver]: any = useState(false);
+    const slideOverId: any = useId();
     function toggleDarkMode () {
         setSessionData((prevState) => {
             return { ...prevState, darkmode: !prevState.darkmode};

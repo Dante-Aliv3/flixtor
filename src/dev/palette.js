@@ -1,11 +1,40 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { Category, Component, Variant, Palette, } from "@react-buddy/ide-toolbox";
-export const PaletteTree = () => (React.createElement(Palette, null,
-    React.createElement(Category, { name: "App" },
-        React.createElement(Component, { name: "Loader" },
-            React.createElement(Variant, null,
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ExampleLoaderComponent = exports.PaletteTree = void 0;
+const React = __importStar(require("react"));
+const react_1 = require("react");
+const ide_toolbox_1 = require("@react-buddy/ide-toolbox");
+const PaletteTree = () => (React.createElement(ide_toolbox_1.Palette, null,
+    React.createElement(ide_toolbox_1.Category, { name: "App" },
+        React.createElement(ide_toolbox_1.Component, { name: "Loader" },
+            React.createElement(ide_toolbox_1.Variant, null,
                 React.createElement(ExampleLoaderComponent, null))))));
-export function ExampleLoaderComponent() {
-    return React.createElement(Fragment, null, "Loading...");
+exports.PaletteTree = PaletteTree;
+function ExampleLoaderComponent() {
+    return React.createElement(react_1.Fragment, null, "Loading...");
 }
+exports.ExampleLoaderComponent = ExampleLoaderComponent;
+//# sourceMappingURL=palette.js.map
