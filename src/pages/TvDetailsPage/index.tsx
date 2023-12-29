@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { TVData } from "../../utils/types/app.types";
 import TvShowsContainer from "../TvShowsPage";
-import { SessionContext } from "../../context/session.context";
+import { SessionContext } from "../../context/session.context.tsx";
 
 const TvDetailsPage: React.FC = () => {
   const session = useContext(SessionContext);

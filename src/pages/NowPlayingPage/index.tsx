@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MoviesPage from "../../pages/MoviesPage";
-import { SessionContext } from "../../context/session.context";
+import { SessionContext } from "../../context/session.context.tsx";
 import { MovieData } from "../../utils/types/app.types";
 const NowPlayingPage: React.FC = () => {
   const session = useContext(SessionContext);

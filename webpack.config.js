@@ -1,9 +1,9 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   entry: {
-    bundle: path.resolve(__dirname, "src/index.ts"),
+    bundle: path.resolve(__dirname, "src/index.tsx"),
   },
   output: {
     filename: "[name].[contenthash].js",

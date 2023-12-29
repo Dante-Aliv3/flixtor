@@ -7,7 +7,7 @@ import {
   useId,
   FunctionComponent,
 } from "react";
-import { LayoutRoutes } from "../routes";
+import { LayoutRoutes } from "../routes/index.tsx";
 import {
   SessionContent,
   SessionContext,

@@ -3,7 +3,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { SessionContent, SessionContext } from "../../context/session.context";
+import {
+  SessionContent,
+  SessionContext,
+} from "../../context/session.context.tsx";
 import { Props } from "../../utils/types/react.types";
 import * as globalDeclarations from "../../utils/types/window.types";
 import NowPlayingPage from "../NowPlayingPage";

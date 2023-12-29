@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../context/session.context";
+import { SessionContext } from "../../context/session.context.tsx";
 import { MovieData } from "../../utils/types/app.types";
 import TvShowsContainer from "../TvShowsPage";
 const MoviesPage: React.FC = () => {

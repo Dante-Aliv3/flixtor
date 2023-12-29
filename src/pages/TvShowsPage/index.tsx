@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../context/session.context";
+import { SessionContext } from "../../context/session.context.tsx";
 import { TVData } from "../../utils/types/app.types";
 const TvShowsContainer: React.FC = () => {
   const session = useContext(SessionContext);

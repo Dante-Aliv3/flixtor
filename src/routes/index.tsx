@@ -2,4 +2,4 @@
 //export { LayoutRoutes };
 
 // export * from "./layoutRoutes";
-export { default as LayoutRoutes } from "./LayoutRoutes";
+export { default as LayoutRoutes } from "./LayoutRoutes.tsx";

@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import NowPlayingPage from "../pages/NowPlayingPage";
-import MovieDetailsPage from "../pages/MovieDetailsPage";
-import TvShowsPage from "../pages/TvShowsPage";
-import TvDetailsPage from "../pages/TvDetailsPage";
-import NotFound from "../pages/NotFound";
-import MoviesPage from "../pages/MoviesPage";
+import NowPlayingPage from "../pages/NowPlayingPage/index.tsx";
+import MovieDetailsPage from "../pages/MovieDetailsPage/index.tsx";
+import TvShowsPage from "../pages/TvShowsPage/index.tsx";
+import TvDetailsPage from "../pages/TvDetailsPage/index.tsx";
+import NotFound from "../pages/NotFound/index.tsx";
+import MoviesPage from "../pages/MoviesPage/index.tsx";
 
 const LayoutRoutes: React.FC = () => {
   return (

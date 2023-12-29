@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createContext, FunctionComponent, useState } from "react";
-import { Props } from "../utils/types/react.types";
+import { Props } from "../utils/types/react.types.ts";
 
 export type sessionDataType = {
   api: { apiKey: string; apiUrl: string };
