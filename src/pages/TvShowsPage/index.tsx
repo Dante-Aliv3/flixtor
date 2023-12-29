@@ -1,15 +1,19 @@
-import React, {useEffect, useState, useContext, Fragment} from "react";
+import React, { useEffect, useState, useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../context/session";
+import { SessionContext } from "../../context/session.context";
+import { TVData } from "../../utils/types/app.types";
+const TvShowsContainer: React.FC = () => {
+  const session = useContext(SessionContext);
 
-export default function TvShowsContainer(props) {
-  const {sessionData, setSessionData} = useContext(SessionContext);
+  const [tvShows, settvShows]: any = useState({});
+  const sessionData =
+    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
+  const setSessionData =
+    session?.setSessionData !== null ? session?.setSessionData : undefined;
 
-  const [tvShows, settvShows] = useState({});
-
-  const fetchAPIData = async (endpoint) => {
-    const API_KEY = sessionData.api.apiKey;
-    const API_URL = sessionData.api.apiUrl;
+  const fetchAPIData = async (endpoint: string) => {
+    const API_KEY: string | undefined = sessionData?.api.apiKey;
+    const API_URL: string | undefined = sessionData?.api.apiUrl;
 
     window.showSpinner();
 
@@ -46,13 +50,26 @@ export default function TvShowsContainer(props) {
   }, [tvShows]);
 
   return (
-    <Fragment >
+    <Fragment>
       {/* Popular TV Shows  */}
-      <section className="container"  style={!sessionData.darkmode ? {background: 'white', color: 'black', maxWidth: 'none', padding: '0px', margin: '0px'} : null}>
+      <section
+        className="container"
+        style={
+          !sessionData?.darkmode
+            ? {
+                background: "white",
+                color: "black",
+                maxWidth: "none",
+                padding: "0px",
+                margin: "0px",
+              }
+            : {}
+        }
+      >
         <h2>Popular TV Shows</h2>
         <div id="popular-shows" className="grid">
           {Object.keys(tvShows).length &&
-            tvShows.map((show) => {
+            tvShows.map((show: TVData) => {
               return (
                 <div className="card">
                   <Link to={`/tv-details/${show.id}`}>
@@ -74,6 +91,7 @@ export default function TvShowsContainer(props) {
             })}
         </div>
       </section>
-    </Fragment >
+    </Fragment>
   );
-}
+};
+export default TvShowsContainer;

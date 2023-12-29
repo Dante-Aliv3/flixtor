@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-export default function NotFound() {
+const NotFound: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-    //  Redirect user back to home
+      //  Redirect user back to home
       navigate("/");
     }, 2500);
   }, []);
@@ -45,4 +45,6 @@ export default function NotFound() {
       </div>
     </>
   );
-}
+};
+
+export default NotFound;

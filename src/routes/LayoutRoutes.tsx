@@ -7,7 +7,7 @@ import TvDetailsPage from "../pages/TvDetailsPage";
 import NotFound from "../pages/NotFound";
 import MoviesPage from "../pages/MoviesPage";
 
-export default function LayoutRoutes() {
+const LayoutRoutes: React.FC = () => {
   return (
     <>
       <Routes>
@@ -23,4 +23,6 @@ export default function LayoutRoutes() {
       </Routes>
     </>
   );
-}
+};
+
+export default LayoutRoutes;

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "./assets/css/global.css"; // Tell webpack that App.js uses these styles
-import { SessionProvider } from "./context/session";
-import './assets/css/deleteme.styles.scss';
-import ReactLogo from './assets/images/logo.svg';
+import { SessionProvider } from "./context/session.context";
+import "./assets/css/deleteme.styles.scss";
+//import ReactLogo from "./assets/images/logo.svg";
 
 import PageLayout from "./pageLayouts";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -17,15 +17,14 @@ if (document.readyState == "interactive") {
 }
 
 const App = () => {
-
   return (
-      <SessionProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<PageLayout />}></Route>
-          </Routes>
-        </BrowserRouter>
-      </SessionProvider>
+    <SessionProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/*" element={<PageLayout />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </SessionProvider>
   );
 };
 

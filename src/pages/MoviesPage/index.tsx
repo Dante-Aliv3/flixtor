@@ -1,16 +1,20 @@
-import React, {useContext, useEffect, useState} from "react";
+import * as React from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {SessionContext} from "../../context/session";
-
-export default function MoviesPage(props) {
-  const {sessionData} = useContext(SessionContext);
-
+import { SessionContext } from "../../context/session.context";
+import { MovieData } from "../../utils/types/app.types";
+import TvShowsContainer from "../TvShowsPage";
+const MoviesPage: React.FC = () => {
+  const session = useContext(SessionContext);
   const [promoMovies, setPromoMovies] = useState({});
-  const [popularMovies, setPopularMovies] = useState({});
-
-  const fetchAPIData = async (endpoint) => {
-    const API_KEY = sessionData.api.apiKey;
-    const API_URL = sessionData.api.apiUrl;
+  const [popularMovies, setPopularMovies]: any = useState({});
+  const sessionData =
+    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
+  const setSessionData =
+    session?.setSessionData !== null ? session?.setSessionData : undefined;
+  const fetchAPIData = async (endpoint: string) => {
+    const API_KEY: string | undefined = sessionData?.api.apiKey;
+    const API_URL: string | undefined = sessionData?.api.apiUrl;
 
     window.showSpinner();
 
@@ -52,8 +56,8 @@ export default function MoviesPage(props) {
     //console.log(Object.keys(promoMovies).length);
     //console.log(promoMovies);
     /*Object.keys(promoMovies).length && promoMovies.map((card) => {
-            console.log(card);
-        });*/
+                console.log(card);
+            });*/
   }, [promoMovies]);
 
   useEffect(() => {
@@ -61,8 +65,8 @@ export default function MoviesPage(props) {
     //console.log(popularMovies);
     //console.log(popularMovies);
     /*Object.keys(popularMovies).length && popularMovies.map((card) => {
-            console.log(card);
-        });*/
+                console.log(card);
+            });*/
   }, [popularMovies]);
 
   return (
@@ -72,11 +76,23 @@ export default function MoviesPage(props) {
             </section>*/}
 
       {/* Popular Movies */}
-      <section className="container" style={!sessionData.darkmode ? {background: 'white', maxWidth: 'none', padding: '0px', margin: '0px'} : null}>
+      <section
+        className="container"
+        style={
+          !sessionData?.darkmode
+            ? {
+                background: "white",
+                maxWidth: "none",
+                padding: "0px",
+                margin: "0px",
+              }
+            : {}
+        }
+      >
         <h2>Popular Movies</h2>
         <div id="popular-movies" className="grid">
           {Object.keys(popularMovies).length &&
-            popularMovies.map((movie) => {
+            popularMovies.map((movie: MovieData) => {
               return (
                 <div className="card">
                   <Link to={`/movie-details/${movie.id}`}>
@@ -91,9 +107,11 @@ export default function MoviesPage(props) {
                     />
                   </Link>
                   <div className="card-body">
-                    <h5 className="card-title">{movie.title}</h5>
+                    <h5 className="card-title" style={{ color: "white" }}>
+                      {movie.title}
+                    </h5>
                     <p className="card-text">
-                      <small className="text-muted">
+                      <small className="text-muted" style={{ color: "white" }}>
                         Release: {movie.release_date}
                       </small>
                     </p>
@@ -105,4 +123,6 @@ export default function MoviesPage(props) {
       </section>
     </>
   );
-}
+};
+
+export default MoviesPage;

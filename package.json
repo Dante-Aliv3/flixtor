@@ -28,9 +28,11 @@
   "overrides": {
     "typescript": "^5.3.3"
   },
+
   "scripts": {
     "start": "react-scripts start",
-    "dev": "concurrently 'npm:start' 'npm:dev-watch:sass'",
+    "dev": "concurrently 'npm:start' 'dev-watch:typescript'",
+    "dev-watch:typescript": "tsc --watch",
     "dev-watch:sass": "sass --watch src/.:src/.",
     "build": "react-scripts build",
     "test": "react-scripts test",

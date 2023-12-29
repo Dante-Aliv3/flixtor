@@ -1,22 +1,27 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MoviesPage from "../../pages/MoviesPage";
-import {SessionContext} from "../../context/session";
-
-export default function NowPlayingPage(props) {
-  const {sessionData} = useContext(SessionContext);
-
-  const [promoMovies, setPromoMovies] = useState({});
+import { SessionContext } from "../../context/session.context";
+import { MovieData } from "../../utils/types/app.types";
+const NowPlayingPage: React.FC = () => {
+  const session = useContext(SessionContext);
+  const [promoMovies, setPromoMovies]: any = useState({});
   const [popularMovies, setPopularMovies] = useState({});
+  const sessionData =
+    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
+  const setSessionData =
+    session?.setSessionData !== null ? session?.setSessionData : undefined;
 
-  const fetchAPIData = async (endpoint) => {
-    const API_KEY = sessionData.api.apiKey;
-    const API_URL = sessionData.api.apiUrl;
+  const fetchAPIData = async (endpoint: string) => {
+    const API_KEY: string | undefined = sessionData?.api.apiKey;
+    const API_URL: string | undefined = sessionData?.api.apiUrl;
 
     window.showSpinner();
+    //console.warn("sessionData:", sessionData);
 
+    //console.warn(API_URL);
     const response = await fetch(
       `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
     );
@@ -35,6 +40,7 @@ export default function NowPlayingPage(props) {
       //const {results: popularMovies} = await fetchAPIData('movie/popular');
       //const {results} = await fetchAPIData('movie/now_playing');
       //console.log(newMovies);
+
       const [newMoviesRes, popularMoviesRes] = await Promise.all([
         fetchAPIData("movie/now_playing"),
         fetchAPIData("movie/popular"),
@@ -75,12 +81,19 @@ export default function NowPlayingPage(props) {
             </section>*/}
 
       {/* Now Playing Section */}
-      <section className="now-playing" style={!sessionData.darkmode ? {background: 'white'} : null}>
-        <h2 style={!sessionData.darkmode ? {backgroundColor: 'black'} : null}>Now Playing</h2>
+      <section
+        className="now-playing"
+        style={
+          !sessionData?.darkmode ? { background: "white", color: "white" } : {}
+        }
+      >
+        <h2 style={!sessionData?.darkmode ? { backgroundColor: "black" } : {}}>
+          Now Playing
+        </h2>
         <div className="swiper">
           <div className="swiper-wrapper">
             {Object.keys(promoMovies).length &&
-              promoMovies.map((movie) => {
+              promoMovies.map((movie: MovieData) => {
                 return (
                   <div className="swiper-slide">
                     <Link to={`/movie-details/${movie.id}`}>
@@ -107,7 +120,10 @@ export default function NowPlayingPage(props) {
       </section>
 
       {/* Search Movies & TV Shows */}
-      <section className="search"  style={!sessionData.darkmode ? {background: '#134e4a'} : null}>
+      <section
+        className="search"
+        style={!sessionData?.darkmode ? { background: "#134e4a" } : {}}
+      >
         <div className="container">
           <div id="alert"></div>
           <form action="/flixx-app/search.html" className="search-form">
@@ -144,4 +160,6 @@ export default function NowPlayingPage(props) {
       <MoviesPage />
     </>
   );
-}
+};
+
+export default NowPlayingPage;
