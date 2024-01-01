@@ -4,67 +4,64 @@ import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import {
-  SessionContent,
   SessionContext,
+  sessionDataType,
 } from "../../context/session.context.tsx";
-import { Props } from "../../utils/types/react.types";
-import * as globalDeclarations from "../../utils/types/window.types";
-import NowPlayingPage from "../NowPlayingPage";
+import { fetchAPIData } from "../../utils/GlobalFunctions/fetch.ts";
 
-const MovieDetailsPage: React.FC = () => {
+export type ProductionCompaniesType = {
+  id: number;
+  name: string;
+  logo_path: string;
+  origin_country: string;
+};
+
+export type MovieDetailsType = {
+  production_companies?: ProductionCompaniesType[];
+  status?: boolean;
+  backdrop_path?: string;
+  poster_path?: string;
+  title?: string;
+  vote_average?: number;
+  release_date?: string;
+  overview?: string;
+  homepage?: string;
+  budget?: string;
+  revenue?: string;
+  runtime?: string;
+  genres?: [];
+};
+const init = async (movieId: string, sessionData: sessionDataType) => {
+  const newMovieDetails: MovieDetailsType = await fetchAPIData(
+    `movie/${movieId}`,
+    sessionData,
+  );
+  //console.log(newMovieDetails);
+
+  //TODO Create response validation check to & show error message if it fails
+
+  return newMovieDetails;
+};
+
+export const MovieDetailsPage: React.FC<{}> = (props) => {
   const session = useContext(SessionContext);
-  const [movieDetails, setMovieDetails]: any = useState({});
-  const { movieId } = useParams();
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
+  const { movieId = "" } = useParams<{ movieId: string }>();
+  //const { movieId } = useParams() as { movieId: string };
   //console.log(`${movieId}`);
+  const sessionData = session.sessionData;
+  const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
 
-  type MovieData = {
-    backdrop_path: string;
-  };
-
-  const fetchAPIData = async (endpoint: string) => {
-    const API_KEY: string | undefined = sessionData?.api.apiKey;
-    const API_URL: string | undefined = sessionData?.api.apiUrl;
-
-    if (window.showSpinner) {
-      window.showSpinner();
-    }
-
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
-
-    const data = await response.json();
-
-    window.hideSpinner();
-
-    return data;
-  };
-
+  useEffect(() => {}, []);
   useEffect(() => {
     //console.log(sessionData.api.apiKey);
-    const init = async () => {
-      const newMovieDetails: MovieData = await fetchAPIData(`movie/${movieId}`);
-      console.log(movieDetails);
 
-      //TODO Create response validation check to & show error message if it fails
-
-      setMovieDetails(newMovieDetails);
-    };
-    init();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    init(movieId, sessionData).then((data) => {
+      setMovieDetails(data);
+    });
   }, []);
 
   return (
     <>
-      {/*<section>
-                <h1>Amazing scientists 8 - {sessionData.currentPage}</h1>
-            </section>*/}
-
       {/* Movie Details */}
       <section className="container">
         <div className="back">
@@ -74,8 +71,9 @@ const MovieDetailsPage: React.FC = () => {
         </div>
 
         {/* Movie Background Poster */}
+
         <div id="movie-details">
-          {Object.keys(movieDetails).length && (
+          {movieDetails && (
             <div
               style={{
                 backgroundImage: `url("https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}")`,
@@ -94,7 +92,7 @@ const MovieDetailsPage: React.FC = () => {
           )}
 
           {/* Movie Details Output */}
-          {Object.keys(movieDetails).length && (
+          {typeof movieDetails === "object" && (
             <div>
               <div className="details-top">
                 <div>
@@ -117,20 +115,30 @@ const MovieDetailsPage: React.FC = () => {
                       style={{ color: "#f1c40f" }}
                     />
                     &nbsp;
-                    {movieDetails.vote_average.toFixed(1)} / 10
+                    {movieDetails["vote_average"] !== undefined &&
+                      movieDetails.vote_average.toFixed(1)}{" "}
+                    / 10
                   </p>
                   <p className="text-muted">
-                    Release Date: {movieDetails.release_date}
+                    Release Date:
+                    {movieDetails.release_date && movieDetails.release_date}
                   </p>
-                  <p>{movieDetails.overview}</p>
+                  <p>{movieDetails.overview && movieDetails.overview}</p>
                   <h5>Genres</h5>
                   <ul className="list-group">
-                    {movieDetails.genres.map((genre: { name?: string }) => {
-                      return <li>{genre.name}</li>;
-                    })}
+                    {Array.isArray(movieDetails["genres"]) &&
+                      movieDetails.genres.map(
+                        (genre: { id: number; name: string }) => {
+                          return <li key={genre.id}>{genre.name}</li>;
+                        },
+                      )}
                   </ul>
                   <a
-                    href={movieDetails.homepage}
+                    href={
+                      movieDetails["homepage"] !== undefined
+                        ? movieDetails.homepage
+                        : ""
+                    }
                     target="_blank"
                     className="btn"
                   >
@@ -143,40 +151,37 @@ const MovieDetailsPage: React.FC = () => {
                 <ul>
                   <li>
                     <span className="text-secondary">Budget:</span>$
-                    {movieDetails.budget
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {movieDetails.budget &&
+                      movieDetails.budget
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </li>
                   <li>
                     <span className="text-secondary">Revenue:</span> $
-                    {movieDetails.revenue
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {movieDetails.revenue &&
+                      movieDetails.revenue
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </li>
                   <li>
                     <span className="text-secondary">Runtime:</span>{" "}
-                    {movieDetails.runtime} minutes
+                    {movieDetails.runtime && movieDetails.runtime} minutes
                   </li>
                   <li>
                     <span className="text-secondary">Status:</span>{" "}
-                    {movieDetails.status}
+                    {movieDetails.status && movieDetails.status}
                   </li>
                 </ul>
                 <h4>Production Companies</h4>
                 <div className="list-group">
-                  {movieDetails.production_companies.map(
-                    (
-                      company: { name: string },
-                      index: number,
-                      production_companies: [],
-                    ) => {
-                      let comp_name =
-                        index + 1 === production_companies.length
-                          ? company.name
-                          : company.name + ",";
-                      return <span>{comp_name + " "}</span>;
-                    },
-                  )}
+                  {Array.isArray(movieDetails["production_companies"]) &&
+                    movieDetails.production_companies.map((company, index) => {
+                      return (
+                        <span key={company.id}>
+                          {(index ? ", " : "") + company.name}
+                        </span>
+                      );
+                    })}
                 </div>
               </div>
             </div>

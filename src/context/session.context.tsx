@@ -1,6 +1,6 @@
 import * as React from "react";
-import { createContext, FunctionComponent, useState } from "react";
-import { Props } from "../utils/types/react.types.ts";
+import { createContext, useState } from "react";
+import { ChildProps } from "../utils/types/react.types.ts";
 
 export type sessionDataType = {
   api: { apiKey: string; apiUrl: string };
@@ -10,7 +10,6 @@ export type sessionDataType = {
 
 export interface SessionContent {
   sessionData: sessionDataType;
-  setSessionData: any;
   [others: string]: any;
 }
 const getInitialState = (): sessionDataType => {
@@ -41,7 +40,7 @@ export const SessionContext = createContext<SessionContent>({
   setSessionData: () => {},
 });
 
-export const SessionProvider: FunctionComponent<Props> = ({ children }) => {
+export const SessionProvider: React.FC<ChildProps> = ({ children }) => {
   const [sessionData, setSessionData] = useState<sessionDataType>(
     getInitialState(),
   );

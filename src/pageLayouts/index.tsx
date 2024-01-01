@@ -8,12 +8,8 @@ import {
   FunctionComponent,
 } from "react";
 import { LayoutRoutes } from "../routes/index.tsx";
-import {
-  SessionContent,
-  SessionContext,
-  sessionDataType,
-} from "../context/session.context";
-import { Props } from "../utils/types/react.types";
+import { SessionContext, sessionDataType } from "../context/session.context";
+import { ChildProps } from "../utils/types/react.types";
 const { Switch } = await import("@headlessui/react");
 
 // export {default as NowPlayingPage} from "./NowPlayingPage/base";
@@ -23,9 +19,9 @@ const { Switch } = await import("@headlessui/react");
 //     SideBar
 // }
 
-export const MainLayout: FunctionComponent<Props> = ({ children }) => {
+export const MainLayout: FunctionComponent<ChildProps> = ({ children }) => {
   const session = useContext(SessionContext);
-  const [showSlideOver, setshowSlideOver]: any = useState(false);
+  const [showSlideOver, setshowSlideOver] = useState<boolean>(false);
   const slideOverId: any = useId();
   const sessionData =
     session.sessionData?.sessionData !== null ? session.sessionData : undefined;
@@ -155,9 +151,9 @@ export const MainLayout: FunctionComponent<Props> = ({ children }) => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
                 ></path>
               </svg>
@@ -169,7 +165,7 @@ export const MainLayout: FunctionComponent<Props> = ({ children }) => {
   );
 };
 
-const PageContainer: React.FC<Props> = ({ children }) => {
+const PageContainer: React.FC<ChildProps> = ({ children }) => {
   return (
     <>
       <Routes>

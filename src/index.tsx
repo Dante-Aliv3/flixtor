@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App.js";
-import reportWebVitals from "./reportWebVitals";
+import App from "./App.tsx";
+import reportWebVitals from "./reportWebVitals.ts";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews, useInitial } from "../src/dev/index";
 //import 'semantic-ui-css/semantic.min.css'
@@ -19,4 +19,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(null);

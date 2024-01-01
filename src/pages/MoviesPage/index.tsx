@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { SessionContext } from "../../context/session.context.tsx";
 import { MovieData } from "../../utils/types/app.types";
 import TvShowsContainer from "../TvShowsPage";
+
 const MoviesPage: React.FC = () => {
   const session = useContext(SessionContext);
   const [promoMovies, setPromoMovies] = useState({});
