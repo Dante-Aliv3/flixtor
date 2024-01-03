@@ -52,7 +52,6 @@ export const MovieDetailsPage: React.FC<{}> = (props) => {
   const sessionData = session.sessionData;
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
 
-  useEffect(() => {}, []);
   useEffect(() => {
     //console.log(sessionData.api.apiKey);
 

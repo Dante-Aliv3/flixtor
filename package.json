@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Dante-Aliv3/flixtor#readme",
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "prettier": "^3.1.1",
     "pretty-quick": "^3.1.3"
   }
