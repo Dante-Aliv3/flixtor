@@ -1,0 +1,17 @@
+{
+  "name": "flixtor_backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Devante Holston",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1",
+    "pretty-quick": "^3.1.3"
+  }
+}

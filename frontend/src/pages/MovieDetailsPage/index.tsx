@@ -8,6 +8,7 @@ import {
   sessionDataType,
 } from "../../context/session.context.tsx";
 import { fetchAPIData } from "../../utils/GlobalFunctions/fetch.ts";
+import { SessionContent } from "../../context/session.context";
 
 export type ProductionCompaniesType = {
   id: number;
@@ -44,7 +45,7 @@ const init = async (movieId: string, sessionData: sessionDataType) => {
 };
 
 export const MovieDetailsPage: React.FC<{}> = (props) => {
-  const session = useContext(SessionContext);
+  const session: SessionContent = useContext(SessionContext);
   const { movieId = "" } = useParams<{ movieId: string }>();
   //const { movieId } = useParams() as { movieId: string };
   //console.log(`${movieId}`);
