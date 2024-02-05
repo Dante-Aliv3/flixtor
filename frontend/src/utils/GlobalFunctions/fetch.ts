@@ -1,12 +1,9 @@
-import { sessionDataType } from "../../context/session.context.tsx";
+import { sessionDataType } from "../types/app.types.ts";
 
-export const fetchAPIData = async (
+export const FetchAPIData = async (
   endpoint: string,
-  sessionData: sessionDataType,
+  { api: { apiKey: API_KEY, apiUrl: API_URL } }: sessionDataType,
 ) => {
-  const API_KEY: string | undefined = sessionData?.api.apiKey;
-  const API_URL: string | undefined = sessionData?.api.apiUrl;
-
   if (window.showSpinner) {
     window.showSpinner();
   }

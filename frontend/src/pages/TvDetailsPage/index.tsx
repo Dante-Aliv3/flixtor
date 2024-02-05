@@ -1,51 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { TVData } from "../../utils/types/app.types";
 import TvShowsContainer from "../TvShowsPage";
-import { SessionContext } from "../../context/session.context.tsx";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store.ts";
+import { FetchAPIData } from "../../utils/GlobalFunctions/fetch.ts";
 
 const TvDetailsPage: React.FC = () => {
-  const session = useContext(SessionContext);
-
+  const sessionData = useSelector((state: RootState) => state.session);
   const [tvDetails, setTvDetails]: any = useState({});
   const { tvId } = useParams();
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
 
   //console.log(`${tvId}`);
-
-  const fetchAPIData = async (endpoint: {}) => {
-    const API_KEY: string | undefined = sessionData?.api.apiKey;
-    const API_URL: string | undefined = sessionData?.api.apiUrl;
-
-    window.showSpinner();
-
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
-
-    const data = await response.json();
-
-    window.hideSpinner();
-
-    return data;
-  };
-
   useEffect(() => {
     //console.log(global.api.apiKey);
-    const init = async () => {
-      const newTvDetails = await fetchAPIData(`tv/${tvId}`);
+    const intiliaze = async () => {
+      const newTvDetails = await FetchAPIData(`tv/${tvId}`, sessionData);
       console.log(tvDetails);
 
       //TODO Create response validation check to & show error message if it fails
 
       setTvDetails(newTvDetails);
     };
-    init();
+    intiliaze();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

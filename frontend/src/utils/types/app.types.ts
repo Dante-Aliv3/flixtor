@@ -13,3 +13,9 @@ export type TVData = {
   title?: string;
   first_air_date?: string;
 };
+
+export type sessionDataType = {
+  api: { apiKey: string; apiUrl: string };
+  darkmode: boolean;
+  [key: string]: any;
+};

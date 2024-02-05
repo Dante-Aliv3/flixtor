@@ -1,12 +1,7 @@
 import * as React from "react";
 import { createContext, useState } from "react";
 import { ChildProps } from "../utils/types/react.types.ts";
-
-export type sessionDataType = {
-  api: { apiKey: string; apiUrl: string };
-  darkmode: boolean;
-  [key: string]: any;
-};
+import { sessionDataType } from "../utils/types/app.types.ts";
 
 export interface SessionContent {
   sessionData: sessionDataType;

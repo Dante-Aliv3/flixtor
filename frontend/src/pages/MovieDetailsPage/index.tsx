@@ -1,14 +1,13 @@
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import {
-  SessionContext,
-  sessionDataType,
-} from "../../context/session.context.tsx";
-import { fetchAPIData } from "../../utils/GlobalFunctions/fetch.ts";
+import { FetchAPIData } from "../../utils/GlobalFunctions/fetch.ts";
 import { SessionContent } from "../../context/session.context";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store.ts";
+import { sessionDataType } from "../../utils/types/app.types.ts";
 
 export type ProductionCompaniesType = {
   id: number;
@@ -32,8 +31,8 @@ export type MovieDetailsType = {
   runtime?: string;
   genres?: [];
 };
-const init = async (movieId: string, sessionData: sessionDataType) => {
-  const newMovieDetails: MovieDetailsType = await fetchAPIData(
+const intiliaze = async (movieId: string, sessionData: sessionDataType) => {
+  const newMovieDetails: MovieDetailsType = await FetchAPIData(
     `movie/${movieId}`,
     sessionData,
   );
@@ -45,17 +44,16 @@ const init = async (movieId: string, sessionData: sessionDataType) => {
 };
 
 export const MovieDetailsPage: React.FC<{}> = (props) => {
-  const session: SessionContent = useContext(SessionContext);
+  const sessionData = useSelector((state: RootState) => state.session);
   const { movieId = "" } = useParams<{ movieId: string }>();
   //const { movieId } = useParams() as { movieId: string };
   //console.log(`${movieId}`);
-  const sessionData = session.sessionData;
   const [movieDetails, setMovieDetails] = useState<MovieDetailsType>();
 
   useEffect(() => {
     //console.log(sessionData.api.apiKey);
 
-    init(movieId, sessionData).then((data) => {
+    intiliaze(movieId, sessionData).then((data) => {
       setMovieDetails(data);
     });
   }, []);
