@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "concurrently 'npm:server' 'npm:client'",
+    "start": "concurrently 'npm:server' 'npm:client'",
     "client": "npm run start --prefix frontend",
     "server": "npm run watch --prefix backend",
     "install-server": "npm  install --prefix backend",
     "install-client": "npm  install --prefix frontend",
-    "install": "npm run install-server && npm run install-client",
+    "//install": "npm run install-server && npm run install-client",
     "test": "npm run test --prefix backend & npm run test --prefix frontend",
     "deploy": "npm run build --prefix frontend && npm run start --prefix backend"
   },
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Dante-Aliv3/flixtor#readme",
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "prettier": "^3.1.1",
     "pretty-quick": "^3.1.3"

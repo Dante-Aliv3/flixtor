@@ -1,81 +1,34 @@
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../context/session.context.tsx";
 import { MovieData } from "../../utils/types/app.types";
-import TvShowsContainer from "../TvShowsPage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store.ts";
+import { updatePopularMovies } from "../../store/slices/movies.slice.ts";
+import { init } from "../../utils/GlobalFunctions/initialize.ts";
 
 const MoviesPage: React.FC = () => {
-  const session = useContext(SessionContext);
-  const [promoMovies, setPromoMovies] = useState({});
-  const [popularMovies, setPopularMovies]: any = useState({});
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
-  const fetchAPIData = async (endpoint: string) => {
-    const API_KEY: string | undefined = sessionData?.api.apiKey;
-    const API_URL: string | undefined = sessionData?.api.apiUrl;
-
-    window.showSpinner();
-
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
-
-    const data = await response.json();
-
-    window.hideSpinner();
-
-    return data;
-  };
+  const sessionData = useSelector((state: RootState) => state.session);
+  const popularMovies = useSelector(
+    (state: RootState) => state.movies.popularMovies,
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //console.log(sessionData.api.apiKey);
-    const init = async () => {
-      //const {results: newMovies} = await fetchAPIData('movie/now_playing');
-      //const {results: popularMovies} = await fetchAPIData('movie/popular');
-      //const {results} = await fetchAPIData('movie/now_playing');
-      //console.log(newMovies);
-      const [newMoviesRes, popularMoviesRes] = await Promise.all([
-        fetchAPIData("movie/now_playing"),
-        fetchAPIData("movie/popular"),
-      ]);
-
-      const { results: newMovies } = await newMoviesRes;
-      const { results: popularMovies } = await popularMoviesRes;
-
-      setPromoMovies(newMovies);
-      setPopularMovies(popularMovies);
-    };
-    init();
+    init(
+      dispatch,
+      sessionData,
+      "movie/popular",
+      popularMovies,
+      updatePopularMovies,
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    //console.log(Object.keys(promoMovies).length);
-    //console.log(promoMovies);
-    /*Object.keys(promoMovies).length && promoMovies.map((card) => {
-                console.log(card);
-            });*/
-  }, [promoMovies]);
-
-  useEffect(() => {
-    //console.log(Object.keys(popularMovies).length);
-    //console.log(popularMovies);
-    //console.log(popularMovies);
-    /*Object.keys(popularMovies).length && popularMovies.map((card) => {
-                console.log(card);
-            });*/
-  }, [popularMovies]);
-
   return (
     <>
-      {/*<section>
-                <h1>Amazing scientists 8 - {sessionData.currentPage}</h1>
-            </section>*/}
-
       {/* Popular Movies */}
       <section
         className="container"
@@ -95,7 +48,7 @@ const MoviesPage: React.FC = () => {
           {Object.keys(popularMovies).length &&
             popularMovies.map((movie: MovieData) => {
               return (
-                <div className="card">
+                <div className="card" key={movie.id}>
                   <Link to={`/movie-details/${movie.id}`}>
                     <img
                       src={

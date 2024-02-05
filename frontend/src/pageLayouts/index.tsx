@@ -1,15 +1,11 @@
 import * as React from "react";
 import { Link, Route, Routes, Outlet } from "react-router-dom";
-import {
-  useContext,
-  useEffect,
-  useState,
-  useId,
-  FunctionComponent,
-} from "react";
+import { useEffect, useState, useId, FunctionComponent } from "react";
 import { LayoutRoutes } from "../routes/index.tsx";
-import { SessionContext, sessionDataType } from "../context/session.context";
 import { ChildProps } from "../utils/types/react.types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store.ts";
+import { toggleDarkMode } from "../store/slices/session.slice.ts";
 const { Switch } = await import("@headlessui/react");
 
 // export {default as NowPlayingPage} from "./NowPlayingPage/base";
@@ -20,28 +16,15 @@ const { Switch } = await import("@headlessui/react");
 // }
 
 export const MainLayout: FunctionComponent<ChildProps> = ({ children }) => {
-  const session = useContext(SessionContext);
+  const sessionData = useSelector((state: RootState) => state.session);
   const [showSlideOver, setshowSlideOver] = useState<boolean>(false);
   const slideOverId: any = useId();
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
-  function toggleDarkMode() {
-    if (setSessionData !== null) {
-      session?.setSessionData((prevState: sessionDataType) => {
-        return { ...(prevState as object), darkmode: !prevState.darkmode };
-      });
-    }
-  }
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    sessionStorage.setItem(
-      "darkmode",
-      JSON.stringify(session?.sessionData?.darkmode),
-    );
+    sessionStorage.setItem("darkmode", JSON.stringify(sessionData?.darkmode));
     // sessionStorage.removeItem("darkmode");
-  }, [session?.sessionData]);
+  }, [sessionData]);
 
   return (
     <>
@@ -65,7 +48,9 @@ export const MainLayout: FunctionComponent<ChildProps> = ({ children }) => {
                 </div>
                 <Switch
                   checked={sessionData?.darkmode}
-                  onChange={toggleDarkMode}
+                  onChange={() => {
+                    dispatch(toggleDarkMode([]));
+                  }}
                   className={`${
                     sessionData?.darkmode ? "bg-teal-900" : "bg-teal-700"
                   } relative inline-flex h-6 w-11 items-center rounded-full`}

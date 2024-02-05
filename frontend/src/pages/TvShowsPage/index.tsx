@@ -1,53 +1,19 @@
-import React, { useEffect, useState, useContext, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { SessionContext } from "../../context/session.context.tsx";
 import { TVData } from "../../utils/types/app.types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store.ts";
+import { updateTvShows } from "../../store/slices/tvShows.slice.ts";
+import { init } from "../../utils/GlobalFunctions/initialize.ts";
 const TvShowsContainer: React.FC = () => {
-  const session = useContext(SessionContext);
-
-  const [tvShows, settvShows]: any = useState({});
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
-
-  const fetchAPIData = async (endpoint: string) => {
-    const API_KEY: string | undefined = sessionData?.api.apiKey;
-    const API_URL: string | undefined = sessionData?.api.apiUrl;
-
-    window.showSpinner();
-
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
-
-    const data = await response.json();
-
-    window.hideSpinner();
-
-    return data;
-  };
+  const sessionData = useSelector((state: RootState) => state.session);
+  const tvShows = useSelector((state: RootState) => state.tvshows);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //console.log(sessionData.api.apiKey);
-    const init = async () => {
-      const { results: newtvShows } = await fetchAPIData("tv/popular");
-      //console.log(newtvShows);
-      settvShows(newtvShows);
-    };
-    init();
-
-    //setSessionData({...sessionData, darkmode: false});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    init(dispatch, sessionData, "tv/popular", tvShows, updateTvShows);
   }, []);
-
-  useEffect(() => {
-    //console.log(Object.keys(tvShows).length);
-    //console.log(tvShows);
-    /*Object.keys(tvShows).length && tvShows.map((card) => {
-            console.log(card);
-        });*/
-  }, [tvShows]);
 
   return (
     <Fragment>

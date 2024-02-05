@@ -1,85 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import MoviesPage from "../../pages/MoviesPage";
-import { SessionContext } from "../../context/session.context.tsx";
 import { MovieData } from "../../utils/types/app.types";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updatePromoMovies,
+  updatePopularMovies,
+} from "../../store/slices/movies.slice.ts";
+import { RootState } from "../../store/store.ts";
+import { init } from "../../utils/GlobalFunctions/initialize.ts";
 const NowPlayingPage: React.FC = () => {
-  const session = useContext(SessionContext);
-  const [promoMovies, setPromoMovies]: any = useState({});
-  const [popularMovies, setPopularMovies] = useState({});
-  const sessionData =
-    session.sessionData?.sessionData !== null ? session.sessionData : undefined;
-  const setSessionData =
-    session?.setSessionData !== null ? session?.setSessionData : undefined;
-
-  const fetchAPIData = async (endpoint: string) => {
-    const API_KEY: string | undefined = sessionData?.api.apiKey;
-    const API_URL: string | undefined = sessionData?.api.apiUrl;
-
-    window.showSpinner();
-    //console.warn("sessionData:", sessionData);
-
-    //console.warn(API_URL);
-    const response = await fetch(
-      `${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`,
-    );
-
-    const data = await response.json();
-
-    window.hideSpinner();
-
-    return data;
-  };
+  const sessionData = useSelector((state: RootState) => state.session);
+  const promoMovies = useSelector(
+    (state: RootState) => state.movies.promoMovies,
+  );
+  const popularMovies = useSelector(
+    (state: RootState) => state.movies.popularMovies,
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    //console.log(sessionData.api.apiKey);
-    const init = async () => {
-      //const {results: newMovies} = await fetchAPIData('movie/now_playing');
-      //const {results: popularMovies} = await fetchAPIData('movie/popular');
-      //const {results} = await fetchAPIData('movie/now_playing');
-      //console.log(newMovies);
-
-      const [newMoviesRes, popularMoviesRes] = await Promise.all([
-        fetchAPIData("movie/now_playing"),
-        fetchAPIData("movie/popular"),
-      ]);
-
-      const { results: newMovies } = await newMoviesRes;
-      const { results: popularMovies } = await popularMoviesRes;
-
-      setPromoMovies(newMovies);
-      setPopularMovies(popularMovies);
-    };
-    init();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    init(
+      dispatch,
+      sessionData,
+      "movie/now_playing",
+      promoMovies,
+      updatePromoMovies,
+    );
   }, []);
 
   useEffect(() => {
-    //console.log(Object.keys(promoMovies).length);
-    //console.log(promoMovies);
-    /*Object.keys(promoMovies).length && promoMovies.map((card) => {
-            console.log(card);
-        });*/
-  }, [promoMovies]);
+    init(
+      dispatch,
+      sessionData,
+      "movie/popular",
+      popularMovies,
+      updatePopularMovies,
+    );
+  }, []);
 
-  useEffect(() => {
-    //console.log(Object.keys(popularMovies).length);
-    //console.log(popularMovies);
-    //console.log(popularMovies);
-    /*Object.keys(popularMovies).length && popularMovies.map((card) => {
-            console.log(card);
-        });*/
-  }, [popularMovies]);
-
+  // @ts-ignore
   return (
     <>
-      {/*<section>
-                <h1>Amazing scientists 8 - {sessionData.currentPage}</h1>
-            </section>*/}
-
       {/* Now Playing Section */}
       <section
         className="now-playing"
@@ -92,10 +56,10 @@ const NowPlayingPage: React.FC = () => {
         </h2>
         <div className="swiper">
           <div className="swiper-wrapper">
-            {Object.keys(promoMovies).length &&
+            {promoMovies.length &&
               promoMovies.map((movie: MovieData) => {
                 return (
-                  <div className="swiper-slide">
+                  <div className="swiper-slide" key={movie.id}>
                     <Link to={`/movie-details/${movie.id}`}>
                       <img
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -114,7 +78,11 @@ const NowPlayingPage: React.FC = () => {
                 );
               })}
 
-            {Object.keys(promoMovies).length && window.initSwiper()}
+            {promoMovies.length &&
+              window.setTimeout(() => {
+                window.initSwiper();
+                // @ts-ignore
+              }, "0000")}
           </div>
         </div>
       </section>
